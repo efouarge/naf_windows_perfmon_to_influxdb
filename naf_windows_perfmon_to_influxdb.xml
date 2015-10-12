@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<PerformanceCounters>
+		<!-- Network Related Perfdata -->
+		<Counter Name="\Network Interface(*)\Bytes Received/sec"/>
+		<Counter Name="\Network Interface(*)\Bytes Sent/sec"/>
+		<Counter Name="\TCPv4\Connections Active"/>	
+		<Counter Name="\TCPv4\Connections Established"/>
+		<Counter Name="\TCPv4\Connections Passive"/>	
+		<Counter Name="\TCPv4\Connections Reset"/>		
+		<Counter Name="\TCPv4\Connection Failures"/>
+		<Counter Name="\TCPv4\Segments Received/sec"/>	
+		<Counter Name="\TCPv4\Segments Retransmitted/sec"/>		
+		<Counter Name="\TCPv4\Segments Sent/sec"/>				
+		<!-- CPU Related Perfdata -->		
+		<Counter Name="\Processor(*)\% Processor Time"/>
+		<Counter Name="\System\Processor Queue Length"/>
+		<Counter Name="\System\Threads"/>
+		<!-- Memory Related Perfdata -->
+		<Counter Name="\Memory\Available MBytes"/>
+		<Counter Name="\Memory\Pages/sec"/>
+		<Counter Name="\Memory\% Committed Bytes In Use"/>
+		<Counter Name="\Memory\Commit Limit"/>
+		<Counter Name="\Memory\Committed Bytes"/>		
+		<Counter Name="\Paging File(_Total)\% Usage"/>
+		<Counter Name="\Memory\Pool Nonpaged Bytes"/>
+		<Counter Name="\Memory\Pool Paged Bytes"/>
+		<!-- DIsk Related Perfdata -->
+		<Counter Name="\PhysicalDisk(*)\Avg. Disk Write Queue Length"/>
+		<Counter Name="\PhysicalDisk(*)\Avg. Disk Read Queue Length"/>		
+	</PerformanceCounters>
+	<MetricCleaning>
+		<!-- These will be found and replaced in the order they appear here -->
+		<MetricReplace This="physicaldisk\(.* (.*)\:\)" With="physicaldisk.#{CAPTUREGROUP}-drive"/>
+		<MetricReplace This="^\\\\" With=""/>
+		<MetricReplace This="\\\\" With=""/>
+		<MetricReplace This="\/" With="-"/>
+		<MetricReplace This=":" With="."/>
+		<MetricReplace This="\\" With="."/>
+		<MetricReplace This="\(" With="."/>
+		<MetricReplace This="\)" With=""/>
+		<MetricReplace This="\]" With=""/>
+		<MetricReplace This="\[" With=""/>
+		<MetricReplace This="\%" With=""/>
+		<MetricReplace This="\s+" With=""/>
+		<MetricReplace This="\.\." With="."/>
+		<MetricReplace This="_" With=""/>
+		<MetricReplace This="\#" With="num"/>
+		<MetricReplace This="\.processor\." With=".cpu."/>
+		<MetricReplace This="\.cpu\.total\.processortime" With=".cpu.usage"/>
+		<MetricReplace This="\.networkinterface\." With=".nic."/>
+		<MetricReplace This="\.physicaldisk\." With=".hdd."/>
+		<MetricReplace This="\.intel[a-zA-Z0-9]+\." With=".intel."/>
+		<MetricReplace This="\.realtek[a-zA-Z0-9]+\." With=".realtek."/>
+		<MetricReplace This="\.memory\." With=".mem."/>
+	</MetricCleaning>
+	<Filtering>
+		<MetricFilter Name="isatap"/>
+		<MetricFilter Name="teredo tunneling"/>
+	</Filtering>
+</Configuration>
